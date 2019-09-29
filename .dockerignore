@@ -1,0 +1,4 @@
+src/settings
+src/settings.ex
+*.pyc
+*/*/__pycache__
