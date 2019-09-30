@@ -42,6 +42,9 @@ There are three configuration files required in the `settings` directory:
 - **schedules.py**
   contains your custom schedules:
   ```python
+  import datetime
+  import pytz
+
   SCHEDULES = [
     # daily work card
     {
@@ -62,11 +65,15 @@ There are three configuration files required in the `settings` directory:
             'description': 'first-come, first-served',
             'color': 'pink',
             'labelIds': ['<label-id>'],
+            # set due time at 17 o'clock tomorrow
+            #'dueAt': lambda: (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
             'members': ['<user-id>'],
         },
     },
   ]
   ```
+  If the value of a `details` dictonary item is a *callable* it is used to build
+  the actual value of the item. This could be used to build dynamic due times.
 
 There is a `get-ids.py` helper script to dump the various IDs of your Wekan
 instance. This helps to find the required various IDs for your schedules:

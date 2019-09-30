@@ -1,3 +1,6 @@
+import datetime
+import pytz
+
 SCHEDULES = [
     # daily work card
     {
@@ -19,6 +22,10 @@ SCHEDULES = [
             'color': 'pink',
             'labelIds': ['<label-id>'],
             'members': ['<user-id>'],
+            # set due time to 17 o'clock
+            #'dueAt': lambda: datetime.datetime.now().replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
+            # set due time to tomorrow 17 o'clock
+            #'dueAt': lambda: (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
         },
     },
 ]

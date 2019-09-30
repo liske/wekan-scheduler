@@ -33,6 +33,11 @@ def create_card(_sched):
 
     # add details
     if '_id' in res:
+        # check details field for callables
+        for k, v in sched['details'].items():
+            if callable(v):
+                sched['details'][k] = v()
+
         api_response = api.session.put(
             "{}{}".format(api.api_url, "/api/boards/{}/lists/{}/cards/{}".format(
                 sched['board'], sched['list'], res['_id'])),
