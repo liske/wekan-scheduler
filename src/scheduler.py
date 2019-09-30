@@ -51,6 +51,7 @@ for idx, sched in enumerate(SCHEDULES):
     sinces[idx] = datetime.datetime.now()
 
 def main():
+    print("#- SCHEDULER IS ALIVE")
     while True:
         for idx, sched in enumerate(SCHEDULES):
             ts = datetime.datetime.now()
