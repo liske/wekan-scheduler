@@ -42,7 +42,8 @@ There are three configuration files required in the `settings` directory:
 - **schedules.py**
   contains your custom schedules:
   ```python
-  import datetime
+  from datetime import datetime as dt
+  from datetime import timedelta as td
   import pytz
 
   SCHEDULES = [
@@ -73,22 +74,24 @@ There are three configuration files required in the `settings` directory:
         },
 
         # more card details
+        # https://wekan.github.io/api/v3.00/#put_board_list_card
         'details': {
             'description': 'first-come, first-served',
             'color': 'pink',
             'labelIds': ['<label-id>'],
             # set due time at 17 o'clock tomorrow
-            #'dueAt': lambda: (datetime.datetime.now() + datetime.timedelta(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
+            #'dueAt': lambda: (dt.now() + td(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
             'members': ['<user-id>'],
         },
     },
   ]
   ```
   If the value of a `details` dictonary item is a *callable* it is used to build
-  the actual value of the item. This could be used to build dynamic due times.
+  the actual value of the item. This could be used to build dynamic start, due
+  or end times.
 
 There is a `get-ids.py` helper script to dump the various IDs of your Wekan
-instance. This helps to find the required various IDs for your schedules:
+instance. This helps to find the required IDs for your schedules:
 
 ```
 {'boards': {'4b5BmHE2CL8wt8brR': {'labels': {'2kRvzr': 'gray[crumbly]',
@@ -116,7 +119,7 @@ version: '3'
 
 services:
   scheduler:
-    image: liske/wekan-scheduler:0.1
+    image: liske/wekan-scheduler:0.4
     restart: always
     volumes:
       - ./settings:/app/wekan-scheduler/settings:ro
@@ -128,7 +131,7 @@ existing `docker-compose.yml`:
 ```yaml
   # ...
   scheduler:
-    image: liske/wekan-scheduler:0.1
+    image: liske/wekan-scheduler:0.4
     restart: always
     volumes:
       - ./scheduler/settings:/app/wekan-scheduler/settings:ro
