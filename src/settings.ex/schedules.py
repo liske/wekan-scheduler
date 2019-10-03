@@ -17,11 +17,11 @@ SCHEDULES = [
             'title': 'check for donuts',
         },
 
-        # do *not* create a card if a calendar event is matching for now
+        # do *not* create a card if a calendar event is matching
         # .ics files a searched in the ics/ subdirectory
         #
         # to enable the value needs to be a dict, if filename or
-        # event filters are unset the match for any
+        # event filters are unset they match for any
         #
         # fn: check .ics filename (regex)
         # event: check EVENT name (regex)

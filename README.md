@@ -51,6 +51,18 @@ There are three configuration files required in the `settings` directory:
         # cron-like schedule (pycron)
         'schedule': '0 8 * * 1-5',
 
+        # do *not* create a card if a calendar event is matching
+        # .ics files a searched in the ics/ subdirectory
+        #
+        # to enable the value needs to be a dict, if filename or
+        # event filters are unset they match for any
+        #
+        # fn: check .ics filename (regex)
+        # event: check EVENT name (regex)
+        # 'ics': {
+        #    'event': '^Holiday',
+        # },
+
         # target board and list
         'board': '<board-id>',
         'list': '<list-id>',
