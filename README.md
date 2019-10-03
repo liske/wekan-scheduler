@@ -123,6 +123,7 @@ services:
     restart: always
     volumes:
       - ./settings:/app/wekan-scheduler/settings:ro
+      - ./ics:/app/wekan-scheduler/ics:ro
 ```
 
 If you are running *Wekan* on *Docker* you may add *wekan-scheduler* to your
@@ -135,6 +136,7 @@ existing `docker-compose.yml`:
     restart: always
     volumes:
       - ./scheduler/settings:/app/wekan-scheduler/settings:ro
+      - ./scheduler/ics:/app/wekan-scheduler/ics:ro
   depends_on:
     - wekan
   # ...
