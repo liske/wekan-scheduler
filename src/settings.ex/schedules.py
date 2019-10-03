@@ -17,6 +17,19 @@ SCHEDULES = [
             'title': 'check for donuts',
         },
 
+        # do *not* create a card if a calendar event is matching for now
+        # .ics files a searched in the ics/ subdirectory
+        #
+        # to enable the value needs to be a dict, if filename or
+        # event filters are unset the match for any
+        #
+        # fn: check .ics filename (regex)
+        # event: check EVENT name (regex)
+        'ics': {
+            #'fn': 'holidays',
+            'event': 'Holiday',
+        },
+
         # more card details
         # https://wekan.github.io/api/v3.00/#put_board_list_card
         'details': {

@@ -2,16 +2,38 @@
 
 import time
 import datetime
+import os
+import re
 import sys
+import ics
 import pycron
 import wekan_scheduler
 from settings.config import CONFIG
 from settings.schedules import SCHEDULES
 
-
 from pprint import pprint
 
+
+# check for calendar collisions
+def match_ics(ics_fn=None, ics_event=None):
+    for fn in os.listdir('ics'):
+        if fn.endswith(".ics") and (ics_fn is None or re.match(ics_fn, fn)):
+            with open(os.path.join('ics', fn)) as f:
+                c = ics.Calendar(f)
+                for ev in c.timeline.now():
+                    if ics_event is None or re.match(ics_event, ev.name):
+                        print("    calendar match 'in {}': {}".format(fn, ev.name))
+                        return True
+    return False
+
+
+# create a card
 def create_card(_sched):
+    # do not create a card if calender has a matching event
+    if 'ics' in _sched:
+        if match_ics(_sched.get('fn'), _sched.get('event')):
+            return
+
     # create a work copy
     sched = _sched.copy()
 
@@ -46,9 +68,11 @@ def create_card(_sched):
             proxies=api.proxies
         )
 
+
 sinces = {}
 for idx, sched in enumerate(SCHEDULES):
     sinces[idx] = datetime.datetime.now()
+
 
 def main():
     print("#- SCHEDULER IS ALIVE")
@@ -62,9 +86,11 @@ def main():
                     sinces[idx] = ts
                     print("#{} => DONE".format(idx + 1))
                 except:
-                    print("#{} => EXCEPTION: {}".format(idx + 1, sys.exc_info()))
+                    print("#{} => EXCEPTION: {}".format(
+                        idx + 1, sys.exc_info()))
 
         time.sleep(CONFIG['sleep'])
+
 
 if __name__ == "__main__":
     if CONFIG['api_verify']:
