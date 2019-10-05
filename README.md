@@ -12,6 +12,18 @@ configuration and uses the
 access the [Wekan REST API](https://wekan.github.io/api/v3.00/).
 
 
+## Features
+
+- create cards by a cron-like schedule
+- suppress card creation based on iCal calendar files (i.e. on holidays)
+- configurable card properties:
+  - title
+  - description
+  - color
+  - labels
+  - members
+  - received, start, due, end times (with dynamic calculation)
+
 ## Configuration
 
 You should create a dedicated user in *Wekan* to be used to access the *Wekan
@@ -52,16 +64,22 @@ There are three configuration files required in the `settings` directory:
         # cron-like schedule (pycron)
         'schedule': '0 8 * * 1-5',
 
-        # do *not* create a card if a calendar event is matching
-        # .ics files a searched in the ics/ subdirectory
+        # do *not* create a card if a calendar event is found
+        # in a iCal file in the ics/ subdirectory
         #
-        # to enable the value needs to be a dict, if filename or
-        # event filters are unset they match for any
+        # to enable this feature the value needs to be a dict,
+        # if filename or event filters are unset they match
+        # for any calendar event
         #
         # fn: check .ics filename (regex)
         # event: check EVENT name (regex)
+        #
+        # This will suppress card creation by calendar events
+        # with an name containing the word 'Holiday' found in
+        # any iCal file:
+        #
         # 'ics': {
-        #    'event': '^Holiday',
+        #    'event': 'Holiday',
         # },
 
         # target board and list
@@ -141,3 +159,7 @@ existing `docker-compose.yml`:
     - wekan
   # ...
 ```
+
+Remember to use the docker's service internal name (i.e. `'api_url':
+'http://wekan-app'`) in `config.py` to access wekan if deployed by the same
+compose file.
