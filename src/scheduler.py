@@ -53,20 +53,30 @@ def create_card(_sched):
     res = api.api_call(
         "/api/boards/{}/lists/{}/cards".format(sched['board'], sched['list']), sched['card'])
 
-    # add details
+    # edit card stuff
     if '_id' in res:
-        # check details field for callables
-        for k, v in sched['details'].items():
-            if callable(v):
-                sched['details'][k] = v()
+        # add optional card details
+        if 'details' in sched:
+            # check details field for callables
+            for k, v in sched['details'].items():
+                if callable(v):
+                    sched['details'][k] = v()
 
-        api_response = api.session.put(
-            "{}{}".format(api.api_url, "/api/boards/{}/lists/{}/cards/{}".format(
-                sched['board'], sched['list'], res['_id'])),
-            data=sched['details'],
-            headers={"Authorization": "Bearer {}".format(api.token)},
-            proxies=api.proxies
-        )
+            api.session.put(
+                "{}{}".format(api.api_url, "/api/boards/{}/lists/{}/cards/{}".format(
+                    sched['board'], sched['list'], res['_id'])),
+                data=sched['details'],
+                headers={"Authorization": "Bearer {}".format(api.token)},
+                proxies=api.proxies
+            )
+
+        # add optional checklists
+        if 'checklists' in sched:
+            for clname, items in sched['checklists']:
+                api.api_call("/api/boards/{}/cards/{}/checklists".format(sched['board'], res['_id']),
+                             {'title': clname,
+                              'items': items,
+                              })
 
 
 sinces = {}

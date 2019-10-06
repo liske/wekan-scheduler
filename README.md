@@ -101,6 +101,12 @@ There are three configuration files required in the `settings` directory:
             #'dueAt': lambda: (dt.now() + td(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
             'members': ['<user-id>'],
         },
+
+        # add checklists and checklist items
+        # (requires Wekan 3.46+)
+        'checklists': {
+          'Steps': ['buy', 'eat'],
+        },
     },
   ]
   ```

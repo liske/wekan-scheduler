@@ -42,5 +42,11 @@ SCHEDULES = [
             # set due time to tomorrow 17 o'clock
             # 'dueAt': lambda: (dt.now() + td(days=1)).replace(hour=17, minute=0, second=0, microsecond=0).astimezone(pytz.utc).isoformat(),
         },
+
+        # add checklists and checklist items
+        # (requires Wekan 3.46+)
+        'checklists': {
+          'Steps': ['buy', 'eat'],
+        },
     },
 ]
