@@ -23,6 +23,7 @@ access the [Wekan REST API](https://wekan.github.io/api/v3.00/).
   - labels
   - members
   - received, start, due, end times (with dynamic calculation)
+  - checklists
 
 ## Configuration
 
@@ -143,7 +144,7 @@ version: '3'
 
 services:
   scheduler:
-    image: liske/wekan-scheduler:0.4
+    image: liske/wekan-scheduler:0.5
     restart: always
     volumes:
       - ./settings:/app/wekan-scheduler/settings:ro
@@ -156,7 +157,7 @@ existing `docker-compose.yml`:
 ```yaml
   # ...
   scheduler:
-    image: liske/wekan-scheduler:0.4
+    image: liske/wekan-scheduler:0.5
     restart: always
     volumes:
       - ./scheduler/settings:/app/wekan-scheduler/settings:ro
