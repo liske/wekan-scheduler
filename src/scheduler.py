@@ -57,26 +57,32 @@ def create_card(_sched):
     if '_id' in res:
         # add optional card details
         if 'details' in sched:
-            # check details field for callables
-            for k, v in sched['details'].items():
-                if callable(v):
-                    sched['details'][k] = v()
+            try:
+                # check details field for callables
+                for k, v in sched['details'].items():
+                    if callable(v):
+                        sched['details'][k] = v()
 
-            api.session.put(
-                "{}{}".format(api.api_url, "/api/boards/{}/lists/{}/cards/{}".format(
-                    sched['board'], sched['list'], res['_id'])),
-                data=sched['details'],
-                headers={"Authorization": "Bearer {}".format(api.token)},
-                proxies=api.proxies
-            )
+                api.session.put(
+                    "{}{}".format(api.api_url, "/api/boards/{}/lists/{}/cards/{}".format(
+                        sched['board'], sched['list'], res['_id'])),
+                    data=sched['details'],
+                    headers={"Authorization": "Bearer {}".format(api.token)},
+                    proxies=api.proxies
+                )
+            except:
+                print("    => EXCEPTION (DETAILS): {}".format(sys.exc_info()))
 
         # add optional checklists
         if 'checklists' in sched:
-            for clname, items in sched['checklists'].items():
-                api.api_call("/api/boards/{}/cards/{}/checklists".format(sched['board'], res['_id']),
-                             {'title': clname,
-                              'items': items,
-                              })
+            try:
+                for clname, items in sched['checklists'].items():
+                        api.api_call("/api/boards/{}/cards/{}/checklists".format(sched['board'], res['_id']),
+                                     {'title': clname,
+                                      'items': items,
+                                      })
+            except:
+                print("    => EXCEPTION (CHECKLISTS): {}".format(sys.exc_info()))
 
 
 sinces = {}
