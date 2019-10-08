@@ -72,7 +72,7 @@ def create_card(_sched):
 
         # add optional checklists
         if 'checklists' in sched:
-            for clname, items in sched['checklists']:
+            for clname, items in sched['checklists'].items():
                 api.api_call("/api/boards/{}/cards/{}/checklists".format(sched['board'], res['_id']),
                              {'title': clname,
                               'items': items,
