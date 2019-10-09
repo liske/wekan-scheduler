@@ -144,7 +144,7 @@ version: '3'
 
 services:
   scheduler:
-    image: liske/wekan-scheduler:0.5
+    image: liske/wekan-scheduler:0.6
     restart: always
     volumes:
       - ./settings:/app/wekan-scheduler/settings:ro
@@ -157,7 +157,7 @@ existing `docker-compose.yml`:
 ```yaml
   # ...
   scheduler:
-    image: liske/wekan-scheduler:0.5
+    image: liske/wekan-scheduler:0.6
     restart: always
     volumes:
       - ./scheduler/settings:/app/wekan-scheduler/settings:ro
