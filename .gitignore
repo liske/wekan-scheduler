@@ -1,5 +1,7 @@
 .venv/
+venv
 .vscode/
 src/settings/
 src/ics/
 *.pyc
+.idea
