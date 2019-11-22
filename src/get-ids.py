@@ -17,11 +17,15 @@ def get_ids():
         if board.title == 'Templates':
             continue
 
-        ids['boards'][board.id] = {'title:': board.title, 'labels': {}, 'lists': {}}
-        
+        ids['boards'][board.id] = {'title:': board.title, 'labels': {}, 'lists': {}, 'swimlanes': {}}
+
         data = api.api_call("/api/boards/{}".format(board.id))
         for label in data['labels']:
             ids['boards'][board.id]['labels'][label['_id']] = '{}[{}]'.format(label['color'], label.get('name', ''))
+
+        swimlanes = api.api_call("/api/boards/{}/swimlanes".format(board.id))
+        for swimlane in swimlanes:
+            ids['boards'][board.id]['swimlanes'][swimlane['_id']] = swimlane['title']
 
         for cardlist in board.get_cardslists():
             ids['boards'][board.id]['lists'][cardlist.id] = cardlist.title
