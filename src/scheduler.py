@@ -7,6 +7,7 @@ import re
 import sys
 import ics
 import pycron
+import copy
 import wekan_scheduler
 from settings.config import CONFIG
 from settings.schedules import SCHEDULES
@@ -35,7 +36,7 @@ def create_card(_sched):
             return
 
     # create a work copy
-    sched = _sched.copy()
+    sched = copy.deepcopy(_sched)
 
     # Wekan API wrapper
     api = wekan_scheduler.api()
